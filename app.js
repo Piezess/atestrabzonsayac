@@ -1,135 +1,41 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ATEŞ TRABZON Sayaç</title>
-  style.css
-</head>
+// Her sayaç için benzersiz bir anahtar oluşturur:
+// örn: sayac::TERR050801::touch-blue
+function keyFor(sectionId, itemId) {
+  return `sayac::${sectionId}::${itemId}`;
+}
 
-<body>
-  <header class="top">
-    <h1>ATEŞ TRABZON</h1>
-  </header>
+// localStorage'dan sayacı okur (yoksa 0 döner)
+function loadValue(sectionId, itemId) {
+  const raw = localStorage.getItem(keyFor(sectionId, itemId));
+  const val = Number(raw);
+  return Number.isFinite(val) ? val : 0;
+}
 
-  <main class="wrap">
+// localStorage'a sayacı kaydeder
+function saveValue(sectionId, itemId, value) {
+  localStorage.setItem(keyFor(sectionId, itemId), String(value));
+}
 
-    <!-- 1 -->
-    <section class="blok" data-section="TERR050801">
-      <h2 class="blok-baslik">TERR050801 - TRABZON ORTAHİSAR-1</h2>
-      <div class="grid">
-        <div class="counter" data-item="touch-blue">
-          <div class="label">Marlboro Touch Blue</div>
-          <div class="row"><span class="value">0</span><button class="btn">+1</button></div>
-        </div>
+// Sayfadaki tüm blokları (9 başlık) dolaşır
+document.querySelectorAll(".blok").forEach((blok) => {
+  const sectionId = blok.getAttribute("data-section");
 
-        <div class="counter" data-item="edge-slims">
-          <div class="label">Marlboro Edge Slims</div>
-          <div class="row"><span class="value">0</span><button class="btn">+1</button></div>
-        </div>
+  // Her blok içindeki sayaç kartlarını dolaşır
+  blok.querySelectorAll(".counter").forEach((counterEl) => {
+    const itemId = counterEl.getAttribute("data-item");
+    const valueEl = counterEl.querySelector(".value");
+    const btn = counterEl.querySelector(".btn");
 
-        <div class="counter" data-item="edge-blue">
-          <div class="label">Marlboro Edge Blue</div>
-          <div class="row"><span class="value">0</span><button class="btn">+1</button></div>
-        </div>
+    // Başlangıç değerini yükle
+    let count = loadValue(sectionId, itemId);
+    valueEl.textContent = count;
 
-        <div class="counter" data-item="parliament-night-blue">
-          <div class="label">Parliament Night Blue</div>
-          <div class="row"><span class="value">0</span><button class="btn">+1</button></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 2 -->
-    <section class="blok" data-section="TERR050803">
-      <h2 class="blok-baslik">TERR050803 - TRABZON ORTAHİSAR-2</h2>
-      <div class="grid">
-        <div class="counter" data-item="touch-blue"><div class="label">Marlboro Touch Blue</div><div class="row"><span class="value">0</span><button class="btn">+1</button></div></div>
-        <div class="counter" data-item="edge-slims"><div class="label">Marlboro Edge Slims</div><div class="row"><span class="value">0</span><button class="btn">+1</button></div></div>
-        <div class="counter" data-item="edge-blue"><div class="label">Marlboro Edge Blue</div><div class="row"><span class="value">0</span><button class="btn">+1</button></div></div>
-        <div class="counter" data-item="parliament-night-blue"><div class="label">Parliament Night Blue</div><div class="row"><span class="value">0</span><button class="btn">+1</button></div></div>
-      </div>
-    </section>
-
-    <!-- 3 -->
-    <section class="blok" data-section="TERR050805">
-      <h2 class="blok-baslik">TERR050805 - TRABZON OF-SÜRMENE-ÇAYKARA-HAYRA</h2>
-      <div class="grid">
-        <div class="counter" data-item="touch-blue"><div class="label">Marlboro Touch Blue</div><div class="row"><span class="value">0</span><button class="btn">+1</button></div></div>
-        <div class="counter" data-item="edge-slims"><div class="label">Marlboro Edge Slims</div><div class="row"><span class="value">0</span><button class="btn">+1</button></div></div>
-        <div class="counter" data-item="edge-blue"><div class="label">Marlboro Edge Blue</div><div class="row"><span class="value">0</span><button class="btn">+1</button></div></div>
-        <div class="counter" data-item="parliament-night-blue"><div class="label">Parliament Night Blue</div><div class="row"><span class="value">0</span><button class="btn">+1</button></div></div>
-      </div>
-    </section>
-
-    <!-- 4 -->
-    <section class="blok" data-section="TERR050806">
-      <h2 class="blok-baslik">TERR050806 - TRABZON V.KEBİR-B.DÜZÜ-TONYA</h2>
-      <div class="grid">
-        <div class="counter" data-item="touch-blue"><div class="label">Marlboro Touch Blue</div><div class="row"><span class="value">0</span><button class="btn">+1</button></div></div>
-        <div class="counter" data-item="edge-slims"><div class="label">Marlboro Edge Slims</div><div class="row"><span class="value">0</span><button class="btn">+1</button></div></div>
-        <div class="counter" data-item="edge-blue"><div class="label">Marlboro Edge Blue</div><div class="row"><span class="value">0</span><button class="btn">+1</button></div></div>
-        <div class="counter" data-item="parliament-night-blue"><div class="label">Parliament Night Blue</div><div class="row"><span class="value">0</span><button class="btn">+1</button></div></div>
-      </div>
-    </section>
-
-    <!-- 5 -->
-    <section class="blok" data-section="TERR050807">
-      <h2 class="blok-baslik">TERR050807 - TRABZON ARAKLI-SÜRMENE-KÖPRÜBAŞI</h2>
-      <div class="grid">
-        <div class="counter" data-item="touch-blue"><div class="label">Marlboro Touch Blue</div><div class="row"><span class="value">0</span><button class="btn">+1</button></div></div>
-        <div class="counter" data-item="edge-slims"><div class="label">Marlboro Edge Slims</div><div class="row"><span class="value">0</span><button class="btn">+1</button></div></div>
-        <div class="counter" data-item="edge-blue"><div class="label">Marlboro Edge Blue</div><div class="row"><span class="value">0</span><button class="btn">+1</button></div></div>
-        <div class="counter" data-item="parliament-night-blue"><div class="label">Parliament Night Blue</div><div class="row"><span class="value">0</span><button class="btn">+1</button></div></div>
-      </div>
-    </section>
-
-    <!-- 6 -->
-    <section class="blok" data-section="TERR050808">
-      <h2 class="blok-baslik">TERR050808 - TRABZON AKÇAABAT-ÇARŞIBAŞI</h2>
-      <div class="grid">
-        <div class="counter" data-item="touch-blue"><div class="label">Marlboro Touch Blue</div><div class="row"><span class="value">0</span><button class="btn">+1</button></div></div>
-        <div class="counter" data-item="edge-slims"><div class="label">Marlboro Edge Slims</div><div class="row"><span class="value">0</span><button class="btn">+1</button></div></div>
-        <div class="counter" data-item="edge-blue"><div class="label">Marlboro Edge Blue</div><div class="row"><span class="value">0</span><button class="btn">+1</button></div></div>
-        <div class="counter" data-item="parliament-night-blue"><div class="label">Parliament Night Blue</div><div class="row"><span class="value">0</span><button class="btn">+1</button></div></div>
-      </div>
-    </section>
-
-    <!-- 7 -->
-    <section class="blok" data-section="TERR050809">
-      <h2 class="blok-baslik">TERR050809 - TRABZON ORTAHİSAR-3</h2>
-      <div class="grid">
-        <div class="counter" data-item="touch-blue"><div class="label">Marlboro Touch Blue</div><div class="row"><span class="value">0</span><button class="btn">+1</button></div></div>
-        <div class="counter" data-item="edge-slims"><div class="label">Marlboro Edge Slims</div><div class="row"><span class="value">0</span><button class="btn">+1</button></div></div>
-        <div class="counter" data-item="edge-blue"><div class="label">Marlboro Edge Blue</div><div class="row"><span class="value">0</span><button class="btn">+1</button></div></div>
-        <div class="counter" data-item="parliament-night-blue"><div class="label">Parliament Night Blue</div><div class="row"><span class="value">0</span><button class="btn">+1</button></div></div>
-      </div>
-    </section>
-
-    <!-- 8 -->
-    <section class="blok" data-section="TERR050810">
-      <h2 class="blok-baslik">TERR050810 - TRABZON YOMRA-ARSİN</h2>
-      <div class="grid">
-        <div class="counter" data-item="touch-blue"><div class="label">Marlboro Touch Blue</div><div class="row"><span class="value">0</span><button class="btn">+1</button></div></div>
-        <div class="counter" data-item="edge-slims"><div class="label">Marlboro Edge Slims</div><div class="row"><span class="value">0</span><button class="btn">+1</button></div></div>
-        <div class="counter" data-item="edge-blue"><div class="label">Marlboro Edge Blue</div><div class="row"><span class="value">0</span><button class="btn">+1</button></div></div>
-        <div class="counter" data-item="parliament-night-blue"><div class="label">Parliament Night Blue</div><div class="row"><span class="value">0</span><button class="btn">+1</button></div></div>
-      </div>
-    </section>
-
-    <!-- 9 -->
-    <section class="blok" data-section="TERR050811">
-      <h2 class="blok-baslik">TERR050811 - TRABZON ORTAHİSAR-4 - MAÇKA</h2>
-      <div class="grid">
-        <div class="counter" data-item="touch-blue"><div class="label">Marlboro Touch Blue</div><div class="row"><span class="value">0</span><button class="btn">+1</button></div></div>
-        <div class="counter" data-item="edge-slims"><div class="label">Marlboro Edge Slims</div><div class="row"><span class="value">0</span><button class="btn">+1</button></div></div>
-        <div class="counter" data-item="edge-blue"><div class="label">Marlboro Edge Blue</div><div class="row"><span class="value">0</span><button class="btn">+1</button></div></div>
-        <div class="counter" data-item="parliament-night-blue"><div class="label">Parliament Night Blue</div><div class="row"><span class="value">0</span><button class="btn">+1</button></div></div>
-      </div>
-    </section>
-
-  </main>
-
-  app.js</script>
-</body>
-</html>
+    // +1 butonuna basınca artır ve kaydet
+    btn.addEventListener("click", () => {
+      count += 1;
+      valueEl.textContent = count;
+      saveValue(sectionId, itemId, count);
+    });
+  });
+});
+``
